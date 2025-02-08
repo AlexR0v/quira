@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AmplicodeDatabaseMigrationSettings" lastSelectedDirectory="quira-api/src/main/resources/db/migration" liquibaseFileType="YAML" />
+  <component name="AmplicodePersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit name="Default">
+        <packages>
+          <package value="ru.alexrov.quiraapi" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="quira-api.main" name="Default">
+        <packages>
+          <package value="ru.alexrov.quiraapi" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>

@@ -1,0 +1,24 @@
+services:
+  postgres:
+    container_name: quiraDB
+    image: postgres:17
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: quiraDB
+    volumes:
+      - ./postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - quira-network
+    restart: unless-stopped
+
+networks:
+  quira-network:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
