@@ -2,8 +2,6 @@ package ru.alexrov.quiraapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,14 +28,7 @@ public class AuthController {
 
     @Operation(summary = "Авторизация пользователя")
     @PostMapping("/sign-in")
-    public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request, HttpServletResponse response) {
-
-        Cookie cookie = new Cookie("refreshToken", "refreshToken12345");
-        cookie.setHttpOnly(true); // Защита от XSS
-        cookie.setSecure(false); // Только через HTTPS (в production)
-        cookie.setPath("/");
-        cookie.setMaxAge(24 * 60 * 60); // 24 часа
-        response.addCookie(cookie);
+    public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
 
         return authenticationService.signIn(request);
     }

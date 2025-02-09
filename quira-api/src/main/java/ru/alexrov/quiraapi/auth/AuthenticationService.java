@@ -10,6 +10,7 @@ import ru.alexrov.quiraapi.dto.SignInRequest;
 import ru.alexrov.quiraapi.dto.SignUpRequest;
 import ru.alexrov.quiraapi.entity.UserApp;
 import ru.alexrov.quiraapi.entity.enums.Role;
+import ru.alexrov.quiraapi.service.RefreshTokenService;
 import ru.alexrov.quiraapi.service.UserService;
 
 @Service
@@ -19,6 +20,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenService refreshTokenService;
 
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
 
@@ -30,7 +32,7 @@ public class AuthenticationService {
                 .build();
 
         userService.create(user);
-
+        this.refreshTokenService.generateRefreshToken(user);
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);
     }
@@ -44,7 +46,8 @@ public class AuthenticationService {
         var user = userService
                 .userDetailsService()
                 .loadUserByUsername(request.getEmail());
-
+        UserApp userApp = userService.getByEmail(request.getEmail());
+        this.refreshTokenService.generateRefreshToken(userApp);
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);
     }

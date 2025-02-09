@@ -15,21 +15,20 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository repository;
 
-    public UserApp save(UserApp user) {
-        return repository.save(user);
+    public void save(UserApp user) {
+        repository.save(user);
     }
 
 
-    public UserApp create(UserApp user) {
+    public void create(UserApp user) {
         if (repository.existsByUsername(user.getUsername())) {
-            // Заменить на свои исключения
             throw new RuntimeException("Пользователь с таким именем уже существует");
         }
 
         if (repository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Пользователь с таким email уже существует");
         }
-        return this.save(user);
+        this.save(user);
     }
 
     public UserApp getByUsername(String username) {
