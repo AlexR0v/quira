@@ -95,6 +95,7 @@ export const SignUCard = () => {
                 </FormItem>
               )}
             />
+            <div className='mt-3' />
             <Button
               className='w-full'
               disabled={false}
@@ -108,10 +109,10 @@ export const SignUCard = () => {
         <Separator />
       </div>
       <CardContent className='p-7 flex items-center justify-center'>
-        Уже есть аккаунт?{' '}
+        Уже есть аккаунт?
         <Link
           to='/sign-in'
-          className='text-blue-500'
+          className='text-blue-500 ml-2'
         >
           Войти
         </Link>

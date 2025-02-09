@@ -1,3 +1,4 @@
+import { useAuth }                                                        from '@/app/api/query-hooks/useAuth.tsx'
 import { Button }                                                         from '@/components/ui/button.tsx'
 import { Card, CardContent, CardHeader, CardTitle }                       from '@/components/ui/card.tsx'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx'
@@ -17,6 +18,8 @@ const formSchema = z.object({
 
 export const SignInCard = () => {
   
+  const { mutate, isPending } = useAuth()
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,8 +29,7 @@ export const SignInCard = () => {
   })
   
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-    //mutation.mutate(values as any)
+    mutate(values)
   }
   
   return (
@@ -51,7 +53,9 @@ export const SignInCard = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='Введите email' {...field} />
+                    <Input
+                      placeholder='Введите email'
+                      disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,15 +68,18 @@ export const SignInCard = () => {
                 <FormItem>
                   <FormLabel>Пароль</FormLabel>
                   <FormControl>
-                    <Input placeholder='Введите пароль' {...field} />
+                    <Input
+                      placeholder='Введите пароль'
+                      disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <div className='mt-3' />
             <Button
               className='w-full'
-              disabled={false}
+              disabled={isPending}
             >
               Войти
             </Button>
@@ -83,10 +90,10 @@ export const SignInCard = () => {
         <Separator />
       </div>
       <CardContent className='p-7 flex items-center justify-center'>
-        Нет аккаунта?{' '}
+        Нет аккаунта?
         <Link
           to='/sign-up'
-          className='text-blue-500'
+          className='text-blue-500 ml-2'
         >
           Зарегистририроваться
         </Link>

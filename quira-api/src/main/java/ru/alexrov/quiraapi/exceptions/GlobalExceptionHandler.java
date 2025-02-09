@@ -1,5 +1,6 @@
 package ru.alexrov.quiraapi.exceptions;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -73,5 +74,13 @@ public class GlobalExceptionHandler {
         incorrectData.setMessage("Произошла ошибка");
         incorrectData.setValidationErrors(errors);
         return new ResponseEntity<>(incorrectData, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleAllException(ExpiredJwtException exception) {
+        IncorrectData incorrectData = new IncorrectData();
+        incorrectData.setMessage("Токен истек");
+        incorrectData.setErrorText(exception.getMessage());
+        return new ResponseEntity<>(incorrectData, HttpStatus.UNAUTHORIZED);
     }
 }
